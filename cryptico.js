@@ -3557,7 +3557,7 @@ var cryptico = (function() {
         if (plaintext.indexOf("::52cee64bb3a38f6403386519a39ac91c::") != -1) {
           return my._confirm(plaintext);
         } else {
-          return {status: "success", plaintext: plaintext[0], signature: "unsigned"};
+          return {status: "success", plaintext: plaintext, signature: "unsigned"};
         }
     }
     
