@@ -6,7 +6,7 @@ class tEnvoy {
     
   }
   get version() {
-    return "tEnvoy.1.cryptico.1"
+    return "tEnvoy.2.cryptico.2"
   }
   basicRandomString(args) {
     if(args == null) {
@@ -455,43 +455,25 @@ class tEnvoy {
     if(!(args.privateKey instanceof RSAKey)) {
       throw "tEnvoy Fatal Error: property privateKey of object args of method sign is invalid.";
     }
-    let keys = this.genKeys();
-    let encrypted = this.encrypt({
-      string: args.string,
-      publicKey: this.publicKeyString({
-        privateKey: keys
-      }),
-      privateKey: args.privateKey
-    });
-    if(encrypted.status == "success") {
-      encrypted.privateKey = keys;
-    }
-    return encrypted;
+    return cryptico.sign(args.string, args.privateKey);
   }
-  verifySignature(args) {
+  verify(args) {
     if(args == null) {
       args = {};
     }
-    if(args.keys != null) {
+    if(typeof args == "string") {
       args = {
-        "privateKey": args.keys
-      };
-    }
-    if(args.key != null) {
-      args = {
-        "privateKey": args.key
+        "string": args
       };
     }
     if(args.string == null) {
       throw "tEnvoy Fatal Error: property string of object args of method verifySignature is required and does not have a default value.";
     }
-    if(args.privateKey == null) {
-      throw "tEnvoy Fatal Error: property privateKey of object args of method verifySignature is required and does not have a default value.";
-    }
-    if(!(args.privateKey instanceof RSAKey)) {
-      throw "tEnvoy Fatal Error: property privateKey of object args of method verifySignature is invalid.";
-    }
-    return this.decrypt(args);
+    let valid = cryptico.verify(args.string);
+    let split = args.string.split("::52cee64bb3a38f6403386519a39ac91c::");
+    let str = split[0];
+    let publicKey = split[1];
+    return {valid: valid, string: str, publicKey: publicKey};
   }
 }
 window.TogaTech.tEnvoy = new tEnvoy();
