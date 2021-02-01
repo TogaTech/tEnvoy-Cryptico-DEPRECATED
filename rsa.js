@@ -121,29 +121,6 @@ function RSAEncrypt(text)
     else return "0" + h;
 }
 
-function RSAToJSON()
-{
-    return {
-        coeff: this.coeff.toString(16),
-        d: this.d.toString(16),
-        dmp1: this.dmp1.toString(16),
-        dmq1: this.dmq1.toString(16),
-        e: this.e.toString(16),
-        n: this.n.toString(16),
-        p: this.p.toString(16),
-        q: this.q.toString(16)
-    }
-}
-
-function RSAParse(rsaString) {
-    var json = JSON.parse(rsaString);
-    var rsa = new RSAKey();
-
-    rsa.setPrivateEx(json.n, json.e, json.d, json.p, json.q, json.dmp1, json.dmq1, json.coeff);
-
-    return rsa;
-}
-
 // Return the PKCS#1 RSA encryption of "text" as a Base64-encoded string
 //function RSAEncryptB64(text) {
 //  var h = this.encrypt(text);
@@ -155,8 +132,6 @@ RSAKey.prototype.doPublic = RSADoPublic;
 // public
 RSAKey.prototype.setPublic = RSASetPublic;
 RSAKey.prototype.encrypt = RSAEncrypt;
-RSAKey.prototype.toJSON = RSAToJSON;
-RSAKey.parse = RSAParse;
 
 // Version 1.1: support utf-8 decoding in pkcs1unpad2
 // Undo PKCS#1 (type 2, random) padding and, if valid, return the plaintext
@@ -218,7 +193,7 @@ function RSASetPrivateEx(N, E, D, P, Q, DP, DQ, C)
         this.dmq1 = parseBigInt(DQ, 16);
         this.coeff = parseBigInt(C, 16);
     }
-    else throw new Error("Invalid RSA private key");
+    else alert("Invalid RSA private key");
 }
 
 // Generate a new random private key B bits long, using public expt E
@@ -349,7 +324,7 @@ function _rsasign_getHexPaddedDigestInfoForString(s, keySize, hashAlg)
     {
         sMid += "ff";
     }
-    var sPaddedMessageHex = sHead + sMid + sTail;
+    sPaddedMessageHex = sHead + sMid + sTail;
     return sPaddedMessageHex;
 }
 
@@ -456,28 +431,29 @@ RSAKey.prototype.signStringWithSHA256 = _rsasign_signStringWithSHA256;
 RSAKey.prototype.verifyString = _rsasign_verifyString;
 RSAKey.prototype.verifyHexSignatureForMessage = _rsasign_verifyHexSignatureForMessage;
 
-// instance serializer, JSON.stringify(object_with_RSAKey) will serialize as expected.
-RSAKey.prototype.toJSON = function() {
-    return JSON.stringify({
-      type: 'RSAKey',
-      coeff: this.coeff.toString(16),
-      d: this.d.toString(16),
-      dmp1: this.dmp1.toString(16),
-      dmq1: this.dmq1.toString(16),
-      e: this.e.toString(16),
-      n: this.n.toString(16),
-      p: this.p.toString(16),
-      q: this.q.toString(16)
-    })
-}
 
-// global deserializer method
-RSAKey.fromJSON = function(key) {
-    let json = typeof key === 'string' ? JSON.parse(key) : key;
-    if (!(json && json.type === 'RSAKey')) {
-        return null;
-    } 
-    let rsa = new RSAKey();
-    rsa.setPrivateEx(json.n, json.e, json.d, json.p, json.q, json.dmp1, json.dmq1, json.coeff);
-    return rsa;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
