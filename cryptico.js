@@ -3316,12 +3316,13 @@ var cryptico = (function() {
     // Converts a string to a byte array.
     my.string2bytes = function(str)
     {
-        /* var bytes = new Array();
-        for(var i = 0; i < string.length; i++) 
+        var bytes = new Array();
+        for(var i = 0; i < str.length; i++) 
         {
-            bytes.push(string.charCodeAt(i));
+            bytes.push(str.charCodeAt(i));
         }
-        return bytes; */
+        return bytes;
+        /*
         var utf8 = [];
         for (var i=0; i < str.length; i++) {
             var charcode = str.charCodeAt(i);
@@ -3350,17 +3351,19 @@ var cryptico = (function() {
             }
         }
         return utf8;
+        */
     }
 
     // Converts a byte array to a string.
     my.bytes2string = function(data)
     {
-        /* var string = "";
-        for(var i = 0; i < bytes.length; i++)
+        var string = "";
+        for(var i = 0; i < data.length; i++)
         {
-            string += String.fromCharCode(bytes[i]);
+            string += String.fromCharCode(data[i]);
         }   
-        return string; */
+        return string;
+        /* 
         var str = '',
         i;
 
@@ -3384,7 +3387,7 @@ var cryptico = (function() {
             }
         }
 
-        return str;
+        return str; */
     }
     
     // Returns a XOR b, where a and b are 16-byte byte arrays.
