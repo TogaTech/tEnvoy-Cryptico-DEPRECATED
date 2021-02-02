@@ -475,6 +475,73 @@ class tEnvoy {
     let publicKey = split[1];
     return {valid: valid, string: str, publicKey: publicKey};
   }
+  stringToBytes(args) {
+	if(args == null) {
+	  args = {};
+	}
+	if(typeof args == "string") {
+	  args = {
+		"string": args
+	  };
+	}
+	if(args.string == null) {
+      throw "tEnvoy Fatal Error: property string of object args of method stringToBytes is required and does not have a default value.";
+    }
+    return cryptico.string2bytes(args.string);
+  }
+  bytesToString(args) {
+	if(args == null) {
+	  args = {};
+	}
+	if(args instanceof Array) {
+	  args = {
+		"bytes": args
+	  };
+	}
+	if(args.bytes == null) {
+      throw "tEnvoy Fatal Error: property bytes of object args of method bytesToString is required and does not have a default value.";
+    }
+    if(!(args.bytes instanceof Array)) {
+      throw "tEnvoy Fatal Error: property bytes of object args of method bytesToString is invalid.";
+    }
+    return cryptico.bytes2string(args.bytes);
+  }
+  stringToHex(args) {
+	if(args == null) {
+	  args = {};
+	}
+	if(typeof args == "string") {
+	  args = {
+		"string": args
+	  };
+	}
+	if(args.string == null) {
+      throw "tEnvoy Fatal Error: property string of object args of method stringToHex is required and does not have a default value.";
+    }
+	let hex = "";
+	for(let i = 0; i < args.string.length; i++) {
+      hex += args.string.charCodeAt(i).toString(16);
+	}
+    return hex;
+  }
+  hexToString(args) {
+	if(args == null) {
+	  args = {};
+	}
+	if(typeof args == "string") {
+	  args = {
+		"hex": args
+	  };
+	}
+	if(args.hex == null) {
+      throw "tEnvoy Fatal Error: property hex of object args of method hexToString is required and does not have a default value.";
+    }
+    let string = "";
+    for(let i = 0; i < args.hex.length; i += 2) {	  
+	  string += String.fromCharCode(parseInt(args.hex.substring(i, i + 2), 16));
+    }
+    return string;
+  }
 }
 window.TogaTech.tEnvoy = new tEnvoy();
 console.log("%cPowered by TogaTech\n\n%cSTOP!%c\n\nTHE CONSOLE IS INTENDED FOR DEVELOPERS ONLY. USE AT YOUR OWN RISK.\n\nIf someone told you to type something here, perhaps to enable some hidden feature or hack, do NOT type it here. Doing so could send your password and sensitive data to hackers.\n\nTo learn more, please visit togatech.org/selfxss.", "", "color: red; font-size: 30px;", "font-size: 20px;");
